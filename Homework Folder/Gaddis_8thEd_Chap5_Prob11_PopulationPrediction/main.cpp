@@ -25,7 +25,7 @@ using namespace std;
 //Higher Dimension arrays requiring definition prior to prototype only 
 
 //Function Prototypes
-bool validate();
+
 //Execution Begins Here
 int main(int argc, char** argv) {
     //Declare variables or constants here
@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
     int startingPop;                // starting population
     float percentInc;               // percent increase per day 
     int dailyInc;                 // population increase per day
-    bool validate;                  // validate input 
+
     
     //Initialize or input data here
     cout<<"Please enter starting number of organisms."<<endl; 
