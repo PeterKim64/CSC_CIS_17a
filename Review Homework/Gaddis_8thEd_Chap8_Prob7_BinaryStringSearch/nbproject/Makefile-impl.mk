@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=Gaddis_8thEd_Chap7_Prob6_WeatherReports
+PROJECTNAME=Gaddis_8thEd_Chap8_Prob7_BinaryStringSearch
 
 # Active Configuration
 DEFAULTCONF=Debug
