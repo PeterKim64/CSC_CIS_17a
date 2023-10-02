@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=1D Augment Dynamic Memeory Allocation
+PROJECTNAME=2D Augment
 
 # Active Configuration
 DEFAULTCONF=Debug
