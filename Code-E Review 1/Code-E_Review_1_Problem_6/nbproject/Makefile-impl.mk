@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=Code-E Review 1 Problem 6
+PROJECTNAME=Code-E_Review_1_Problem_6
 
 # Active Configuration
 DEFAULTCONF=Debug
