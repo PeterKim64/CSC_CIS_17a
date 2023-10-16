@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=Median Dynamic Memeory Allocation
+PROJECTNAME=Median_Dynamic_Memeory_Allocation
 
 # Active Configuration
 DEFAULTCONF=Debug

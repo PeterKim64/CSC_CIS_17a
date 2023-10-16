@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=2D_Augment
+PROJECTNAME=Code-E Structures Problem2
 
 # Active Configuration
 DEFAULTCONF=Debug
