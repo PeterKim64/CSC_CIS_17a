@@ -1,0 +1,24 @@
+
+//System Libraries
+#include <cstdlib>
+#include <iostream>
+using namespace std;
+
+//User Libraries
+
+//Global Constants
+//Only Universal Physics/Math/Conversions found here
+//No Global Variables 
+//Higher Dimension arrays requiring definition prior to prototype only 
+
+//Function Prototypes
+
+//Execution Begins Here
+int main(int argc, char** argv) {
+    //Declare variables or constants here
+    
+    //Initialize or input data here
+    //Output
+   
+    return 0;
+}
