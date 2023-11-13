@@ -84,32 +84,32 @@ int main(int argc, char** argv) {
     
     int sum[2]; 
     //check for aces
-//    for(int i=0; i<2; i++) {
-//        for(int j=0; j<2; j++) {
-//            if(deal[i][j]==1) {
-//                //check if 1 being 11 busts
-//                deal[i][j]=11; 
-//                sum[0]=deal[0][0]+deal[0][1];          // check dealer
-//                sum[1]=deal[1][0]+deal[1][1];          // check player
-//                cout<<"sum"<<i<<" is now "<<sum[i]<<endl; 
-//            }
-//        }
-//    }
-//    
+    for(int i=0; i<2; i++) {
+        for(int j=0; j<2; j++) {
+            if(deal[i][j]==1) {
+                //check if 1 being 11 busts
+                deal[i][j]=11; 
+                sum[0]=deal[0][0]+deal[0][1];          // check dealer
+                sum[1]=deal[1][0]+deal[1][1];          // check player
+                cout<<"sum"<<i<<" is now "<<sum[i]<<endl; 
+            }
+        }
+    }
+    
     //check for natural blackjack
-//    if(sum[0]==21 && sum[1]==21) {
-//        cout<<"You and the dealer have tied for blackjack."<<endl; 
-//        }
-//    else if(sum[0]==21) {
-//        cout<<"The dealer has won with a natural blackjack."<<endl; 
-//        player->loss-=player->bet; 
-//        cout<<"You lost $"<<player->bet; 
-//        }
-//    else if(sum[1]==21) {
-//        cout<<"You have won with a natural blackjack. Congratulations!"<<endl;
-//        player->win+=(player->bet *1.5); 
-//        cout<<"You won $"<<(player->bet*1.5); 
-//    }
+    if(sum[0]==21 && sum[1]==21) {
+        cout<<"You and the dealer have tied for blackjack."<<endl; 
+        }
+    else if(sum[0]==21) {
+        cout<<"The dealer has won with a natural blackjack."<<endl; 
+        player->loss-=player->bet; 
+        cout<<"You lost $"<<player->bet; 
+        }
+    else if(sum[1]==21) {
+        cout<<"You have won with a natural blackjack. Congratulations!"<<endl;
+        player->win+=(player->bet *1.5); 
+        cout<<"You won $"<<(player->bet*1.5); 
+    }
     
     //Display cards given
     cout<<"Why is this program not ending..."<<endl; 

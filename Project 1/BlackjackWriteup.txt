@@ -1,0 +1,672 @@
+CIS-17A 48781
+Professor: Dr. Mark Lehr
+Name: Peter Kim
+Date: 11/12/2023
+
+Introduction
+
+Title: Blacjack
+
+This is a blackjack program that stores the wins, losses, and net money from the games played. The player only plays against the dealer, who is programmed to hit below soft 17, and stay above soft 17. 
+Due to card counting, casinos have used more than 1 deck of cards, so the player can choose how many decks they would like to use, up to 8 decks (8 decks being the max amount of decks used at casinos from my research).
+The program asks for the player name, decks to be used, and bet before running the game. When the game starts, the player and dealer are both dealt 2 cards for a beginning hand. The dealer's first card is hidden from 
+the player. The player can see both of their cards. Any further hits from the dealer can be seen by the player, just the first card will not be shown until the end of the game. However, if the player stays, 
+the dealer will continue to hit until they reach a soft 17 or above. The end of the game triggers when either:
+
+	The player or dealer reaches 21
+	The player or dealer busts
+	The player and dealer ties for 21 or going bust or have the same sum
+
+Note: The player makes the decision to hit or stay first, then the dealer hits or stays in turn. However, if the player stays, the dealer will continue to hit until they are at a soft 17. 
+Once the game ends, the terminal outputs the winnings or losses, as well as writing to a records file (records the player name, wins, losses, and net money) as well as writing to a results 
+file which stores the same info but with some formatting. The reason for two files is that the records file holds the raw data that will later be accessed for that player. But the results file 
+actually outputs the name, wins, losses, and net with formatting. 
+
+
+Summary:
+
+Project lines: About 473 lines
+Number of variables: About 28. 23 declared in main, some others declared within functions that main doesn't need access to. 
+
+I tried to include as many concepts that we learned in class, such as the last part (writing to binary files, recording records, etc), as well as
+dynamic memory in arrays, dynamically creating a structure, using 2d vectors etc. I'm not satisfied with my project yet, so I want to keep working on it after I turn it in. 
+The last thing I want to add is a leaderboard that displays players according to the most wins or most money won. My problem now is that I'm not well enough 
+versed in record keeping; specifically how to pick each player based on their name and read their stats rather than the other players that have played the game. 
+
+A concept I think we didn't cover was shuffling arrays randomly, which I researched and coded on my own. I used the rand() and srand() functions to swap around 
+indexes of the cards[] array that holds all the card values. 
+
+I've worked on this project for 3 weeks, although since I wasn't working every single day on it, you can't say it took 3 weeks to make. I did work nearly every day
+for the first week, and for many hours on the weekends. It was challenging on some parts, not so much on others. Error testing and compiler errors mostly occured 
+for the actual game. Sometimes conditions didn't trigger, the right sums weren't calculated, or the game would get into infinite loops. The most challenging part
+was 1) making sure if an ace was dealt it could possibly count as an 11 both in the cards displayed and the resulting sum. and 2) creating records, reading them back
+and modifying the resulting output file. I'm the least well versed in file writing, and it shows as its the least developed function of the program :( 
+
+This being said, I had a lot of fun creating this program. I've played card games since I was a little kid, and the idea of making on by myself was very exciting. 
+I used your method of writing from the ground up and not trying to do everything at once. First I just did the input diologues and wrote all my code within main, 
+then I started to transfer them into functions and clean up to make the logic more readable. Also while writing I realize that I have much to learn when creating 
+readable code, as I got lost myself many times during error testing haha. I started my first few years at RCC in math and physics, where documentation for proving 
+your answer is imperitive, and I considered my skill to do pretty decent. Relearning this skill in coding is something I'm excited to keep doing as its just as 
+important. 
+
+Description: 
+
+To program blackjack, I had to tackle a few major issues. How will you store the dealt cards so that you can add more with each hit? How will you sum up the cards
+when the value of an ace is either a 1 or an 11? How will you access data from the previous games? 
+
+Sample Input/Output
+
+Conditions to validate for input: 
+	
+	1. Can only input 1-8 for decks
+		if "deck" input is invalid the program will ask for another input
+
+	2. Can only input positive numbers for player bet
+		if "player->bet" input is invalid the program will ask for another input
+
+	3. Can only input 0 or 1 for choice to stay or hit
+		if "choice" input is invalid the program will ask for another input
+
+	4. Check the actual sums to see if the outcome of the game within the terminal is actually true (ie. if you hit blackjack but the terminal says you lose) 
+		playing the game will reveal these outputs and if they are correct. (ie. keeping pressing 1 to hit and bust, press 0 to instantly stop hitting, play to see if you or dealer hits blackjack, etc.)
+
+	Screenshots are inluced within the folder this is turned in with 
+
+Flowcharts/Pseudocode
+	
+	Flowchart to be included in the folder this is turned in with
+	
+	Pseudocode: 
+	Initialize 
+	Create player structure
+
+	Ask for name, decks, and bet
+	while(decks/bet input is invalid) {
+		ask for input again with specified parameters
+}
+	call fillStandard()
+	fill standard[] from "deck.txt" holding card values for 1 suit {1,2,3,4,5,6,7,8,9,10,10,10,10}
+	
+	call *fillCards()
+	based on decks inputed, dynamically create a cards[] array with size 52*decks.
+	declare j outside of a for loop using i. 
+	fill the cards[] by setting cards[i]=standard[j] in the for loop using i for size*52 repetitions
+	if(j=13) j=0, restarting the values being read into cards[i]. 
+	return dynamically created cards[] back to main
+	
+	call shuffle()
+	random seed based on time program began
+	for size*52 {
+	random index generated
+	cards[i]=temp
+	cards[i]=cards[randomIndex]
+	cards[randomIndex]=temp	
+}
+	call dealing()
+	//deals cards using a 2d vector to hold the values. row 0 holds dealer, row 1 holds player. 2 inital columns for cards. vector is resized automatically
+	nested for to get every part of 2d vector. outer forloop has 2 repetitions for players, inner forloop has reptitions loopSize based on hits or stays. 
+	deal[][]=cards[] 
+
+	call sum();
+	first does an inital sum
+	counts aces
+	if aceCount>0
+	set deal[aceIndex]=11
+	resum
+	if(resum>21)
+	revert deal[aceIndex]=1
+	revert sum
+	else if
+	keep the new sum and new cards
+	
+	call check();
+	if sums==21 you won or dealer won
+	else if sums>21  you lose or dealer lost
+	else if sums[0]==sums[1] you and dealer tied
+	else if sums[0]>21 && sums[1]>21 you and dealer tied
+	else
+	find differences betweeen sums and 21. Whoever has less differences (closer to 21) wins.
+	
+	
+	
+	call display();
+	if gameEnd=false
+	hide the first card of dealer
+	display the rest of the cards
+
+	else if gameEnd=true
+	display all the cards
+	
+	while(gameEnd=false && sums<21 && choice=hit && loopEnd=false) {
+	input choice hit or stay (0 to stay, 1 to hit)
+	switch 
+	case 0: display "stay" 
+	case 1: display "hit" and deal another card to player 
+	default: display to pick a valid input for choice
+		loopEnd=true; skips the rest of the code until the end to redo loop
+	if(sum[Dealer]<17)
+	dealer hits
+
+	call sum();
+	call check();
+	call display(); 
+}
+	while(sum[dealer]<17)
+	dealer hits
+
+	call sums();
+	call check();
+	call display();
+	
+	loopEnd=false allows player to redo the choice
+	
+	if(gameEnd=true)
+	write stats onto records file and display file
+	
+	delete dynicamlly created varaibles player structure and cards[]
+	
+	return 0; 
+	
+
+Variables: 
+	Major variables included:
+		int cards[] which had to be dynamically created and based off of standard[], located in deal function and during the hit or stay part of code (line 134)
+		2d vector "deal" which holds the cards of the player and dealer, located in dealing function and in hit or stay part of code (line 134)
+		bool gameEnd which determines if functions like check even run or whether display shows dealer cards. check and display are located all over main program
+		file varaibles fstream outputFile, and records and outputBinary, located at end of game (line 204-242)
+Shortcomings: 
+	There were a few things I'd like to improve about this code in the future. 
+	1) I couldn't find a clean way to show the cards first, then display whether you won or lost. This is because the check must occur to deterine whether or not to show the dealers cards. 
+	2) I don't understand how to read in from records, then change them. If I read the records from previous game, it'll just change whatever the player inputted to the records from the last game. Mostly I ran 
+ 	   out of time before I couldn't cleanly code this. 
+	3) I want to put all functions into header files to make the code even cleaner. 
+	4) Not every piece of code got turned into a function. The stay or hit part of code is a big example of this. Just ran out of time. 
+
+References: 
+	Gaddis Book "Starting with C++ 7th Edition by Tony Gaddis" 
+	website CodeGeek "https://www.codegeek.net"
+	Talking with peers working on similar projects, mostly Benjy
+
+
+Program: 
+
+
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/cppFiles/main.cc to edit this template
+ */
+
+/*
+ * File:   main.cpp
+ * Author: User
+ * Created on October 25, 2023, 5:02 PM
+ * Purpose: Project 1 for Lehr, create a card game:
+ * I choose blackjack.
+ */
+/*
+ * Version 3: Add strings and cstrings for names. Add binary file writing 
+ * for record storage. Maybe a leader board. 
+ */
+
+//System Libraries
+#include <cstdlib>      // exit()
+#include <iostream>
+#include <time.h>       // time for srand(time(0)); possibly also for runtime stat
+#include <vector>       // holds the inital cards dealt and new hits
+#include <iomanip>      // format
+#include <string>       // include player name
+#include <fstream>      // input and output files
+using namespace std;
+
+//User Libraries
+
+//Global Constants
+//Only Universal Physics/Math/Conversions found here
+//No Global Variables
+//Higher Dimension arrays requiring definition prior to prototype only
+//Structures
+struct Stats{
+    string name;                   // player name
+    float bet=0;                   // amount bet
+    float win=0;                   // winnings
+    float loss=0;                  // losses
+    float net=0;                   // net money
+};
+
+//Function Prototypes
+void fillStandard(int [],fstream &);                                   // reads from a file to set standard array; 
+int *fillCards(const int [],const int,int&);           // creates array "cards" that holds values for deck of cards
+void shuffle(int *,const int);                         // shuffles cards
+void sum(vector<vector<int>> &,const int, int, int,int [],int&);  //sums cards in vector deal
+void check(const int, int [], Stats *,int,int,bool &,int &,unsigned int &,unsigned int &);      // checks if you got a blackjack or busted
+void dealing(vector<vector<int>> &,int [],int &,int &,int,int,const int);                    // deals cards according to how big the vector is sized after hits or stays
+void display(vector<vector<int>> &, int, int[],bool); 
+void writeResults();                                    // attempting a leader board
+
+//Execution Begins Here
+int main(int argc, char** argv) {
+    //Declare variables or constants here
+    Stats *player;                       // pointer to info on player
+    int standard[13];            // values for one suit of cards in a deck. 4 included in each deck
+    int decks=1;                         // amount of decks to increase random chance. 1 minimum. 8 max. 
+    int sizeCards=0;                     // size of cards array
+    srand(time(0));                      // randomize seed using time for shuffling
+    const int dealSize=2;                // initial deal is only two cards always 
+    vector<vector<int>> deal(2,vector<int> (dealSize,0));
+    int countAces=0;             // number of aces in each hand 
+    int aceIndex;                // index where ace was found
+    int sums[dealSize]={0,0};    // sums of each players hands [0] being dealer [1] being player
+    int playerHit=0;             // counting the hits to resize vector
+    int dealerHit=0;             //counter for dealer hitting
+    int loopSize=0;              // size of loop when vector gets bigger based on player or dealer hits
+    int choice=1;                     // hit or stay
+    int dealerChoice=1;               // dealer hits or stays 
+    int dealt=0;                      // dealt cards get value of 0
+    bool gameEnd=false;               // put into if statements and validation 
+    int gameResult=3;                // did the player win or lose? 0 is lose, 1 is true, -1 is tie
+    unsigned int gameWon=0;          // accumulator for games won
+    unsigned int gameLost=0;         // accumulator for games lost
+    fstream inFile;                   // input file for standard array
+    fstream outBin;                   // output file in binary
+    fstream records;                  // records to modify leader board
+    fstream outFile;                  // output file for leader board
+    
+    //Dynamically Create Structure
+    player=new Stats;
+    
+    //Input dialogue
+    cout<<"This program runs a game of blackjack for 2 players, ";
+    cout<<"the user and the dealer."<<endl;
+    cout<<"Please enter your name."<<endl; 
+    getline(cin,player->name); 
+    
+    cout<<"Please enter how many decks you would like to use. (1-8)"<<endl;
+    cin>>decks;
+    //validate decks input
+    while(decks>8 || decks<=0) {
+        cout<<"Please enter a valid range of decks from 1-8 decks."<<endl;
+        cin>>decks;
+    }
+    
+    //ask for bet amount
+    cout<<"Please enter how much you'd like to bet for this hand."<<endl;
+    cin>>player->bet;
+    
+    while(player->bet <=0) {
+        cout<<"Please enter a positive number only for player bet."<<endl; 
+        cin>>player->bet; 
+    }
+    
+    //Fill standard array 
+    fillStandard(standard,inFile); 
+    
+    //Create cards array
+    int *cards=fillCards(standard,decks,sizeCards);
+    
+    //Shuffle cards
+    shuffle(cards,sizeCards);
+    
+    //Deal cards
+    dealing(deal,cards,loopSize,dealt,dealerHit,playerHit,dealSize);
+    //check input
+//    deal[0][0]=1; 
+//    deal[0][1]=1; 
+//    deal[1][0]=1; 
+//    deal[1][1]=2;
+    
+    //get sums of initial deal
+    sum(deal,dealSize,dealerHit,playerHit,sums,loopSize);  
+     //check for natural blackjack
+    check(dealSize,sums,player,choice,dealerChoice,gameEnd,gameResult,gameLost,gameWon);
+    //show cards
+    display(deal,loopSize,sums,gameEnd);
+ 
+
+    //Hit or stay
+    bool loopEnd=false;
+    while(choice==1 && sums[0]<21 && sums[1]<21 && loopEnd==false) {
+        cout<<"Would you like to hit or stay? Press 0 to stay, 1 to hit."<<endl; 
+        cin>>choice; 
+        switch(choice) {
+            case 0:
+                cout<<"Player stays."<<endl; 
+                choice=0; 
+                break; 
+            case 1: 
+                cout<<"Player hits."<<endl; 
+                playerHit++;
+                while(cards[dealt]==0) dealt++;     // make sure the card being dealt isn't one that's already been used
+                deal[1][(playerHit+dealSize)-1]=cards[dealt];
+                cards[dealt]=0; 
+                dealt++;  
+                choice=1;
+                break; 
+            default: 
+                cout<<"Enter only a 0 or a 1."<<endl;  
+                choice=1; 
+                loopEnd=true; 
+                break; 
+        }
+    //Dealer hit or stay
+        if(loopEnd==false) {             // validate the choice by player
+            
+            if(sums[0]<17) {
+                cout<<"Dealer hits."<<endl;  
+                dealerHit++;                        // count hits of dealer to size 2d vector 
+                while(cards[dealt]==0) dealt++;     // make sure the card being dealt isn't one that's already been used
+                deal[0][(dealerHit+dealSize)-1]=cards[dealt];   // give a new card
+                cards[dealt]=0;                     // set card values to 0
+                dealt++;                            // move to the next index of cards
+                dealerChoice=1;                     // dealer hits
+    
+        }
+            else if(sums[0]>=17) {
+                cout<<"Dealer stays."<<endl; 
+                dealerChoice=0;             // dealer stops. if player stays then stop loop 
+        }
+    // checks sums again
+        sum(deal,dealSize,dealerHit,playerHit,sums,loopSize);
+     // check
+        check(dealSize,sums,player,choice,dealerChoice,gameEnd,gameResult,gameLost,gameWon);
+    // display new cards
+        display(deal,loopSize,sums,gameEnd);  
+    }
+        loopEnd=false;               // allow player to retry the input for choice
+ }
+    
+    //while loop ends when either player stops hitting or busts. sometimes dealer still hits so this accounts for that
+    dealerChoice=1;         // keeps hitting? 
+    while(sums[0]<17 && gameEnd==false) {
+        cout<<"Dealer hits after players stays."<<endl; 
+        dealerHit++; 
+        while(cards[dealt]==0) dealt++;     // make sure the card being dealt isn't one that's already been used
+        deal[0][(dealerHit+dealSize)-1]=cards[dealt++]; 
+        cards[dealt]=0;  
+        // checks sums again
+        sum(deal,dealSize,dealerHit,playerHit,sums,loopSize); 
+        // display again
+        display(deal,loopSize,sums,gameEnd);
+    }
+    dealerChoice=0;         // now stays after while loop is done 
+    
+    
+    //while loop ends now check conditions
+    check(dealSize,sums,player,choice,dealerChoice,gameEnd,gameResult,gameLost,gameWon); 
+    
+    //Output changes into records
+    records.open("records.txt", ios::out|ios::app); 
+    records<<player->name<<endl;  
+    records<<gameWon<<endl; 
+    records<<gameLost<<endl; 
+    records<<player->net<<endl;   
+    records.close(); 
+    
+    //couldn't figure out how to read in records and change them based on previous games. I can read them in but I can't figure out how to change them after the fact
+
+    //Output File
+    if(gameEnd=true) {
+        outFile.open("results.txt", ios::out|ios::app); 
+        if(gameResult==0) {
+            outFile<<player->name<<" has lost the game."<<endl; 
+            outFile<<"Wins: "<<gameWon<<endl;  
+            outFile<<"Losses: "<<gameLost<<endl; 
+            outFile<<"Net $: "<<player->net<<endl<<endl; 
+        }
+        else if(gameResult==1) {
+            outFile<<player->name<<" has won the game."<<endl; 
+            outFile<<"Wins: "<<gameWon<<endl;  
+            outFile<<"Losses: "<<gameLost<<endl; 
+            outFile<<"Net $: "<<player->net<<endl<<endl; 
+        }
+        else if(gameResult==-1) {
+            outFile<<player->name<<" has tied the game."<<endl; 
+            outFile<<"Wins: "<<gameWon<<endl;  
+            outFile<<"Losses: "<<gameLost<<endl; 
+            outFile<<"Net $: "<<player->net<<endl<<endl; 
+        }
+        outFile.close(); 
+        
+    }
+    
+    //Output in binary to a txt file
+    outBin.open("recordsBinary.txt", ios::out|ios::binary); 
+    outBin<<player->name<<endl;  // couldn't figure out how to write this in binary
+    outBin<<(reinterpret_cast<char *>(gameWon), sizeof(gameWon))<<endl; 
+    outBin<<(reinterpret_cast<char *>(gameLost), sizeof(gameLost))<<endl; 
+    //    outBin<<(reinterpret_cast<char *>(player->net), sizeof(player->net));   // couldn't figure out how to write this in binary 
+    outBin.close(); 
+    
+    //Delete new memory
+
+    delete[] cards;
+    delete player;
+
+    return 0;
+}
+
+
+int *fillCards(const int standard[],const int decks, int& sizeCards) {
+    
+        sizeCards=decks*52;       // size of array
+    int *ary=new int[sizeCards];  // dynamic array creation
+    int j=0;                                // counter for standard index
+    for(int i=0; i<sizeCards; i++) {        // fill cards array
+        if(j!=12) {
+        ary[i]=standard[j];                 // keep going until one suit is filled
+        j++;
+        }
+        else if(j==12) {
+            ary[i]=standard[j];
+            j=0;                            // reset if reach end one suit, move to next suit
+        }
+    }
+    return ary;
+}
+void shuffle(int *cards, const int sizeCards) {
+    for(int i=0; i<sizeCards; i++) {
+        int random;
+        int temp;
+        int lowerBound=0;           // lowest array index
+        int upperBound=sizeCards-1; // highest array index
+        // generate a random number from lower to upper bound
+        random=(rand()%(upperBound-lowerBound+1))+ lowerBound;
+        temp=cards[i];
+        cards[i]=cards[random];
+        cards[random]=temp;
+    }
+}
+
+void sum(vector<vector<int>> &deal,const int dealSize,int dealerHit, int playerHit, int sums[],int &loopSize) {
+    sums[0]=0; 
+    sums[1]=0;                     
+    // size of the loop based on dealerHit or playerHit
+    if(dealerHit>playerHit)      loopSize=dealerHit+dealSize; 
+    else if(dealerHit<playerHit) loopSize=playerHit+dealSize;
+    else if(dealerHit==playerHit)loopSize=dealerHit+dealSize; 
+    
+    for(int i=0; i<2; i++) {
+        for(int j=0; j<loopSize; j++) {
+        sums[i]+=deal[i][j];    
+        }
+    }
+    for(int players=0; players<2; players++) {      // go thru each player
+        int countAces=0;                                // reset count aces for each player
+            for(int j=0; j<(loopSize); j++) {             // go thru each card
+                if(deal[players][j]==1 || deal[players][j]==11) {       // initial sums don't get touched unless they have an ace
+                    //check if 1 being 11 busts (ace = 1 or 11)
+                    countAces++;  
+                    int aceIndex=j; 
+                    if(countAces>0) {
+                        sums[players]-=deal[players][aceIndex];                 // subtract the 1
+                        deal[players][aceIndex]=11; 
+                        if(players==0) {
+                            sums[players]+=deal[players][aceIndex];             // add 11 instead                             
+                        } 
+                        else if(players==1) {
+                            sums[players]+=deal[players][aceIndex];             // add 11 instead
+                            }
+                        
+                    if(sums[players]>21) {
+                        sums[players]-=deal[players][aceIndex];                 // subtract the 11 that breaks 21
+                        deal[players][aceIndex]=1;                              // revert the 11 back to one in the cards
+                        sums[players]+=deal[players][aceIndex];                 //add 1 back
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+void check(const int dealSize, int sums[], Stats *player,int choice,int dealerChoice,bool &gameEnd,int &gameResult, unsigned int &gameLost, unsigned int &gameWon) {
+    if(gameEnd==false) { 
+        
+        if(sums[0]==21 && sums[1]==21 && gameEnd==false) {
+            cout<<"You and the dealer have tied for blackjack."<<endl;
+            gameEnd=true; 
+            gameResult=-1;
+            }
+        else if(sums[0]==21 && gameEnd==false) {
+            cout<<"The dealer has won with a blackjack."<<endl;
+            player->loss+=player->bet;
+            cout<<"You lost $"<<player->bet<<endl; 
+            gameEnd=true;
+            gameResult=0; 
+            gameLost++; 
+            }
+        else if(sums[1]==21 && gameEnd==false) {
+            cout<<"You have won with a blackjack. Congratulations!"<<endl;
+            player->win=2*(player->bet);
+            cout<<"You won $"<<player->win<<endl; 
+            gameEnd=true;
+            gameResult=1; 
+            gameWon++;
+        }
+
+        //next: did they bust? 
+        for(int players=0; players<2; players++) {
+            if(sums[0]>21 && sums[1]>21 && gameEnd==false) {
+                cout<<"Both of you went over 21! It's a tie!"<<endl; 
+                gameEnd=true;
+                gameResult=-1;
+            }
+            if(sums[players]>21 && gameEnd==false) {
+                if(players==0 && gameEnd==false) {
+                    player->win=2*player->bet; 
+                    cout<<setprecision(2)<<fixed; 
+                    cout<<"The dealer has busted. You won $"<<player->win<<endl;  
+                    gameEnd=true; 
+                    gameResult=1; 
+                    gameWon++;
+                }
+                else if(players==1 && gameEnd==false) {
+                    player->loss+=player->bet; 
+                    cout<<setprecision(2)<<fixed; 
+                    cout<<"You have busted. You lost $"<<player->loss<<endl; 
+                    gameEnd=true;
+                    gameResult=0; 
+                    gameLost++; 
+                }
+            }
+        } 
+        //next: if they didn't bust, who's closer to 21? 
+        int diffPlayer=0;         // differences from 21: player
+        int diffDealer=0;         // differences from 21: dealer
+        if(choice==0 && dealerChoice==0 && gameEnd==false) {
+            diffDealer=21-(sums[0]); 
+            diffPlayer=21-(sums[1]); 
+            if(diffPlayer<diffDealer && gameEnd==false) {            // player was closer to 21
+                player->win=2*player->bet; 
+                cout<<setprecision(2)<<fixed; 
+                cout<<"Congrats! You won $"<<player->win<<endl;
+                gameEnd=true; 
+                gameResult=1; 
+                gameWon++;
+            }
+            else if(diffPlayer>diffDealer && gameEnd==false) {       // dealer was closer to 21 
+                player->loss+=player->bet;
+                cout<<setprecision(2)<<fixed; 
+                cout<<"Aw, you lost $"<<player->loss<<endl; 
+                gameEnd=true;
+                gameResult=0; 
+                gameLost++; 
+            }
+            else if(diffPlayer==diffDealer && gameEnd==false) {      // player and dealer tied
+                cout<<"Dealer and Player tied with same sum of "<<sums[0]<<" and "<<sums[1]<<endl; 
+                gameEnd=true; 
+                gameResult=-1;
+            }
+        }
+    }
+    else if(gameEnd==true) {                                         // validation if something goes wrong
+        player->net=player->win - player->loss; 
+    } 
+}
+void dealing(vector<vector<int>> &deal,int cards[],int &loopSize,int &dealt,int dealerHit,int playerHit,const int dealSize) {
+    if(dealerHit>playerHit)      loopSize=dealerHit+dealSize; 
+    else if(dealerHit<playerHit) loopSize=playerHit+dealSize;
+    else if(dealerHit==playerHit)loopSize=dealerHit+dealSize; 
+    for(int i=0; i<2; i++) {            // only two players 
+        for(int j=0; j<loopSize; j++) { // two cards inital deal
+            while(cards[dealt]==0){     // make sure the card being dealt isn't one that's already been used
+                dealt++; 
+            }
+            deal[i][j]=cards[dealt];    // go thru random card[] array
+            cards[dealt]=0;             // set dealt card values to 0;
+            dealt++;                    // increment dealt index
+        }
+    }
+    
+}
+void display(vector<vector<int>> &deal, int loopSize,int sums[],bool gameEnd) {
+    string names[2]={"Dealer","Player"}; 
+    if(gameEnd==false) {
+        //display dealer
+        cout<<setw(12)<<left<<names[0]; 
+        cout<<setw(12)<<left<<"hidden"; 
+            for(int j=1; j<loopSize; j++) {
+                cout<<setw(12)<<left<<deal[0][j]<<" "; 
+            }
+        cout<<endl; 
+        //display player
+        cout<<setw(12)<<left<<names[1]; 
+        for(int j=0; j<loopSize; j++) {
+            cout<<setw(12)<<left<<deal[1][j]<<" "; 
+        }
+        
+        cout<<" is at "<<sums[1]<<endl; 
+        
+    } 
+    
+    else if(gameEnd==true) {
+        cout<<"\nDisplaying cards after game has ended."<<endl; 
+        for(int i=0; i<2; i++) {
+            cout<<setw(10)<<left<<names[i]; 
+                for(int j=0; j<loopSize; j++) {
+                    cout<<setw(5)<<left<<deal[i][j]<<" ";
+                }
+            cout<<" is at "<<sums[i]<<"...\n"<<endl; 
+        }  
+    }    
+}
+
+void fillStandard(int standard[],fstream &inFile) {
+    //open file
+    inFile.open("deck.txt", ios::in); 
+    
+    //read in cards
+    for(int i=0; i<13; i++) {
+        inFile>>standard[i]; 
+    } 
+    
+    //close file 
+    inFile.close();    
+}
+
+
+
+
+ 
+ 
+
+		
