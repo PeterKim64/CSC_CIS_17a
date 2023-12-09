@@ -30,3 +30,13 @@ Wins: 1
 Losses: 0
 Net $: 2
 
+Noel has lost the game.
+Wins: 0
+Losses: 1
+Net $: -10.25
+
+peter has lost the game.
+Wins: 0
+Losses: 1
+Net $: -10.5
+
