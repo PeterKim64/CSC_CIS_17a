@@ -40,13 +40,3 @@ Wins: 0
 Losses: 1
 Net $: -10.5
 
-peer has lost the game.
-Wins: 0
-Losses: 1
-Net $: -1
-
-Peter has lost the game.
-Wins: 0
-Losses: 1
-Net $: -5
-
