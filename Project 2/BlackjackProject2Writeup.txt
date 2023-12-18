@@ -1,0 +1,213 @@
+CIS-17A 48781
+Professor: Dr. Mark Lehr
+Name: Peter Kim
+Date: 12/17/23
+
+Introduction
+
+Title: Blacjack Project 2
+The second project of blackjack was mainly implementing classes. I mainly used inheritence, but also used friends for class collaborations. To be honest, I wish I was able to stretch the functionality further
+using classes, but I was not able to do this on time. I'll put my ideas of new functionality below, as well as they are listed in the code in commented sections. 
+
+
+
+Summary:
+
+Project lines: Little over 710 lines (accumulation of all the .h and .cpp files along with main.cpp)
+Number of variables: About 28.
+
+
+
+Description: 
+While the functionality of this code hasn't been improved as much as I'd like, they readability from main is work that I'm very much proud of. The classes work in tandem 
+and produce very nice neat looking code (for my standard). Theres a few lines specifically I'll share that look really nice. 
+
+line 113: dealer.deal(deck); 	
+and 
+line 115-119:   dealer.setSize(one);
+    		dealer.setSums();
+		//judge checks hands  
+    		judge.checks(dealer,one);
+   		dealer.showHand(); 
+Line 113 is nearly a literal description of what the program is doing. The dealer deals the deck. Deal is a function of the dealer, and deck is the object that is used to deal a hand.
+Next, theres a series of lines that show how the classes work together. The dealer can set the size of the decks used, as well as set the scores of the players. At first I thought to 
+let the judge handle the sums, but passing the hands over to the judge just seemed redundant since the dealer already has access to the hand directly. Next, the judge chekcs the cards. 
+The judge judges the dealers evaluation of the scores, each for the dealer and the player. Another very "literal" line, if you will. Finally, the dealer shows the hand, as a dealer would
+in a casino. 
+
+The most challenging part of this code was getting the classes to work with each other in their private members. A lot of times I had to change private: to protected:, but seeing this error 
+isn't obvious at first... a lot of code searching to find compilor errors. Not only that, but I also encountered the diamond problem with one of my class inheritence. I had tried to get Judge
+to inherit both Players and Dealer, but Dealer had already inherited Player. So there was a ambiguous visibility problem where Judge didn't know how to access Players. I tried using virtual 
+inheritence, but that didn't work either. In the end, I just used public classes in Player. But that error took almost a day of error trial to find out that I couldn't inherit Player at all,
+but had to look for a different solution. Dr.Lehr helped me with that at the end of the day. 
+
+I worked on this project about a total of 17 hours throughout about 5 days only... I won't make excuses for why I started late, but that's how it happened. The project was a great experience
+for me to learn how to inherit, aggregate, use friends, etc. Everything we learned in the second part of the semester I learned to a much better degree, even if its not implemented in the code. 
+And as I coded more classes, I found new ideas on what to add once winter break begins!
+One idea I had from my previous version of blackjack was to add different players to the table with different
+"personalities." These non-playable-characters (npcs) woudl be programmed to be either aggressive or passive, and maybe even random in their choices to hit or stay, and their bets. This could be very
+efficiently programmed with Players being an abstract base class, instead of a normal class like I have implemented. It would be very nice to just create an "aggresivePlayer", "passivePlayer", etc. 
+that inherits all the attributes of the Player base class, all while just being programmed themselves (with constructor setting them to certain behaviors) to bet or hit/stay a certain pattern. 
+Another idea I had was to use Judge as the an overseer, and aggregating a bunch of instances of Player to Judge. This way Judge could access all the different attributes of all the different players. 
+Finally, adding a leaderboard, like my last blackjack project would be nice. It would become much more compact using a class, just using a write() and display() function at the very end. 
+
+All in all, I found out a lot about class implementation and class collaboration in this project. The final especially taught me how coding collaboration might go with class specifications, something
+I could use even in this project (asking others to help with implementation of the leaderboard using my specifications). I encountered a lot of problems, but they all helped me understand Ch13-16 a lot 
+better. 
+
+ Sample input/Output
+//Lets start off with a win, shall we? 
+
+This program runs a game of blackjack for 2 players, the user and the dealer.
+Please enter your name.
+peter kim
+Please enter how many decks you would like to use. (1-8)
+1
+Please enter how much you'd like to bet for this hand.
+1
+
+
+You have won with a blackjack. Congratulations!
+You won $2
+Dealer:    10           7       score: 17
+Player:    10           11      score: 21
+
+Results for peter kim
+Earnings:$2
+
+
+//Typical run of the game. This input shows how you can draw an ace (11), but if you hit and it busts you, the dealer will change it to a (1) value for you. 
+
+This program runs a game of blackjack for 2 players, the user and the dealer.
+Please enter your name.
+1
+Please enter how many decks you would like to use. (1-8)
+1
+Please enter how much you'd like to bet for this hand.
+1
+
+
+Dealer:    4            2       score: 6
+Player:    3            11      score: 14
+Would you like to hit or stay? Press 0 to stay, 1 to hit.
+1
+Player hits.
+1 getcount player.
+2 inside loop.
+the card dealt was 8
+Dealer hits.
+Dealer:    4            2       10      score: 16
+Player:    3            1       8       score: 12
+Would you like to hit or stay? Press 0 to stay, 1 to hit.
+1
+Player hits.
+2 getcount player.
+3 inside loop.
+the card dealt was 6
+Dealer hits.
+Dealer:    4            2       10      3       score: 19
+Player:    3            1       8       6       score: 18
+Would you like to hit or stay? Press 0 to stay, 1 to hit.
+0
+Player stays.
+Dealer stays.
+Dealer:    4            2       10      3       score: 19
+Player:    3            1       8       6       score: 18
+Aw, you lost $1.00
+Aw, you lost $1.00
+
+Results for 1
+Earnings:$-1.00
+
+//Heres another run showing how I use excpetions and throwing an catching for error testing
+
+This program runs a game of blackjack for 2 players, the user and the dealer.
+Please enter your name.
+Peter
+Please enter how many decks you would like to use. (1-8)
+-1
+Invalid decks input. Please try again.
+9
+Invalid decks input. Please try again.
+1
+Please enter how much you'd like to bet for this hand.
+0
+Invalid bet input. Please try again.
+-90
+Invalid bet input. Please try again.
+1
+
+
+Dealer:    10           7       score: 17
+Player:    8            4       score: 12
+Would you like to hit or stay? Press 0 to stay, 1 to hit.
+0
+Player stays.
+Dealer stays.
+Dealer:    10           7       score: 17
+Player:    8            4       score: 12
+Aw, you lost $1.00
+Aw, you lost $1.00
+
+Results for Peter
+Earnings:$-1.00
+
+											//Heres the actual code that makes this happen. Lines 23-30 in Players.cpp
+
+void Players::setBet(float b) {
+    if(b<1)  throw invalidBet();       // exception throw for bet
+    if(b>=1) bet=b;                    // else input is valid    
+}
+void Players::setHit(bool h) { 
+    if(h>1 || h<0) throw invalidHit(); //exception throw for hit 
+    else if(h==1||h==0) hit=h;              //else input is valid
+    else cout<<"didn't work, setHit in player class."<<endl; 
+
+											//And in main.cpp lines 69-95
+
+    //Validate decks input
+    while(validInput==false) {
+        try{
+            card.setDeckSize(decks);
+            validInput=true;
+        }
+        catch(Deck::invalidDecksUsed) {
+            cout<<"Invalid decks input. Please try again."<<endl; 
+            cin>>decks; 
+        }
+
+        
+    }
+    //ask for bet amount
+    cout<<"Please enter how much you'd like to bet for this hand."<<endl;
+    cin>>info.bet; 
+    validInput=false; 
+    while(validInput==false) {
+        try{
+           one.setBet(info.bet);
+           validInput=true; 
+        }
+        catch(Players::invalidBet) {
+           cout<<"Invalid bet input. Please try again."<<endl; 
+           cin>>info.bet; 
+        }
+    }
+
+Variables: 
+	Major variables included:
+		vector<vector<int> hand 	// Dealer holds hand for the players
+		invalidBet
+		invalidDecksUsed		// empty classes that get instantiated and thrown for an exception in bets or decks
+		*cards				// held in Deck, the cards get created to a size 52*decks, with values of a standard deck. 
+Shortcomings: 
+	There were a few things I'd like to improve about this code in the future. 
+	1) Make Players an abstract base class so NPCs can be added with more than 2 players
+	2) Add leaderboard with accumulative earnings
+	3) Allow player to loop another game if they choose to "play again." 
+
+References: 
+	Gaddis Book "Starting with C++ 7th Edition by Tony Gaddis" 
+	website CodeGeek "https://www.codegeek.net"
+	Dr.Lehr 
+	chatgpt for error testing (promise I didn't copy code, just finding compilor error help). 
+
